@@ -1,1 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WebCart — Checkout</title>
+<link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="site-header">
+  <div class="brand">WebCart</div>
+</header>
+
+<main class="center-area">
+  <h2>Checkout</h2>
+  <div id="checkoutItems"></div>
+  <div class="cart-summary">
+    <div>Total: <strong id="checkoutTotal">₹0</strong></div>
+    <label>Payment method (demo)</label>
+    <select id="payMethod"><option>UPI</option><option>Card</option><option>Netbanking</option></select>
+    <button class="btn" id="payNow">Pay Now (Demo)</button>
+  </div>
+</main>
+
+<script src="script.js"></script>
+<script>
+  document.getElementById('payNow').onclick = () => {
+    // simulate payment success
+    alert('Payment successful (demo). Thank you!');
+    localStorage.removeItem('cart'); // clear cart on success
+    window.location.href = 'index.html';
+  };
+</script>
+</body>
+</html>
 
