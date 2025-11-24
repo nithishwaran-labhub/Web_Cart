@@ -1,1 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WebCart — Cart</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="brand">WebCart</div>
+  <div class="header-right">
+    <a href="index.html" class="btn small">Home</a>
+    <a href="wishlist.html" class="btn small">Wishlist</a>
+  </div>
+</header>
+
+<main class="center-area">
+  <h2>Your Cart</h2>
+  <div id="cartList"></div>
+  <div class="cart-summary">
+    <div>Total: <strong id="cartTotal">₹0</strong></div>
+    <button class="btn" id="checkoutBtn">Proceed to Checkout</button>
+    <button class="btn outline" onclick="clearCart()">Clear Cart</button>
+  </div>
+</main>
+
+<script src="script.js"></script>
+<script>
+  // show checkout page
+  document.getElementById('checkoutBtn').onclick = () => {
+    window.location.href = 'checkout.html';
+  };
+  // when page loads, script.js's loadCart will populate items
+</script>
+</body>
+</html>
 
