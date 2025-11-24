@@ -1,1 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WebCart — Login</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="auth-box">
+  <h2>Login</h2>
+  <input id="loginEmail" placeholder="Email" />
+  <input id="loginPassword" type="password" placeholder="Password" />
+  <button class="btn" onclick="doLogin()">Login</button>
+  <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+</div>
+
+<script src="script.js"></script>
+<script>
+  function doLogin(){
+    const email = document.getElementById('loginEmail').value.trim();
+    const pass = document.getElementById('loginPassword').value;
+    if(!email || !pass){ alert('Enter email and password'); return; }
+    // users stored in localStorage as array `users`
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const u = users.find(x => x.email === email && x.password === pass);
+    if(u){
+      localStorage.setItem('loggedUser', JSON.stringify({ email: u.email }));
+      window.location.href = 'index.html';
+    } else {
+      alert('Invalid credentials (demo). You can signup first.');
+    }
+  }
+</script>
+</body>
+</html>
 
