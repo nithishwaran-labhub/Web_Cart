@@ -1,9 +1,16 @@
-// WebCart demo: uses localStorage for auth/cart/wishlist
-const CURRENCY = '₹'; // change symbol here if you want "$"
+// ==========================
+// 🔐 USER LOGIN CHECK
+// ==========================
+function logout() {
+    localStorage.removeItem("loggedUser");
+    window.location.href = "login.html";
+}
 
-/* ---------- LARGE PRODUCT LIST (30 ITEMS) ---------- */
-const PRODUCTS = [
-  { id:1, name:"Running Shoes", price:1200, img:"images/shoes.jpg", category:"shoes" },
+// ====================================
+// 🛒 DUMMY PRODUCT LIST (20+ ITEMS)
+// ====================================
+let products = [
+   { id:1, name:"Running Shoes", price:1200, img:"images/shoes.jpg", category:"shoes" },
   { id:2, name:"Smart Watch", price:2500, img:"images/watch.jpg", category:"watches" },
   { id:3, name:"Backpack", price:800, img:"images/bag.jpg", category:"bags" },
   { id:4, name:"Headphones", price:1500, img:"images/headphones.jpg", category:"electronics" },
@@ -35,219 +42,113 @@ const PRODUCTS = [
   { id:30, name:"Neckband Earphones", price:799, img:"images/neckband.jpg", category:"electronics" }
 ];
 
-/* ---------- LocalStorage helpers ---------- */
-function getCart(){ return JSON.parse(localStorage.getItem('cart') || '[]'); }
-function setCart(x){ localStorage.setItem('cart', JSON.stringify(x)); updateCartCount(); }
 
-function getWish(){ return JSON.parse(localStorage.getItem('wish') || '[]'); }
-function setWish(x){ localStorage.setItem('wish', JSON.stringify(x)); updateWishCount(); }
+// ==========================
+// 🛒 CART / WISHLIST STORAGE
+// ==========================
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
 
-function getLoggedUser(){ return JSON.parse(localStorage.getItem('loggedUser') || 'null'); }
-function logout(){ localStorage.removeItem('loggedUser'); window.location.href = 'login.html'; }
+// ==========================
+// 👉 DISPLAY COUNTS
+// ==========================
+function updateCounts() {
+    document.getElementById("cart-count").textContent = cart.length;
+    document.getElementById("wish-count").textContent = wishlist.length;
 
-/* ---------- Init for all pages ---------- */
-(function(){
-  const u = getLoggedUser();
-  if(u && document.getElementById("user-email")){
-    document.getElementById("user-email").innerText = u.email;
-  }
-  updateCartCount();
-  updateWishCount();
-})();
+    let user = localStorage.getItem("loggedUser");
+    if (user) document.getElementById("user-email").innerText = user;
+}
+updateCounts();
 
-/* ---------- Home Page: Display Products ---------- */
-function displayProducts(list = PRODUCTS){
-  const box = document.getElementById("products");
-  if(!box) return;
-  box.innerHTML = "";
 
-  list.forEach(p=>{
-    const div = document.createElement("div");
-    div.className = "product";
-    div.innerHTML = `
-      <img src="${p.img}">
-      <h3>${p.name}</h3>
-      <p>${CURRENCY}${p.price}</p>
-      <button onclick="addToCart(${p.id})" class="btn">Add to Cart</button>
-      <button onclick="addToWish(${p.id})" class="btn small">Wishlist</button>
-    `;
-    box.appendChild(div);
-  });
+// ==========================
+// 🛍 ADD TO CART
+// ==========================
+function addToCart(id) {
+    let item = products.find(p => p.id === id);
+
+    if (!cart.some(p => p.id === id)) {
+        cart.push(item);
+        localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
+    updateCounts();
+    alert("✔ Added to Cart!");
 }
 
-/* ---------- Search + Filter + Sort ---------- */
-if(document.getElementById("searchInput")){
-  document.getElementById("searchInput").addEventListener("input", applyFilters);
-  document.getElementById("categoryFilter").addEventListener("change", applyFilters);
-  document.getElementById("sortPrice").addEventListener("change", applyFilters);
+
+// ==========================
+// ❤️ ADD TO WISHLIST
+// ==========================
+function addToWishlist(id) {
+    let item = products.find(p => p.id === id);
+
+    if (!wishlist.some(p => p.id === id)) {
+        wishlist.push(item);
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    }
+
+    updateCounts();
+    alert("❤️ Added to Wishlist!");
 }
 
-function applyFilters(){
-  const q = document.getElementById("searchInput").value.toLowerCase();
-  const cat = document.getElementById("categoryFilter").value;
-  const sort = document.getElementById("sortPrice").value;
 
-  let list = PRODUCTS.filter(x =>
-    x.name.toLowerCase().includes(q) && (cat === "all" || x.category === cat)
-  );
+// ==========================
+// 🔎 DISPLAY PRODUCTS
+// ==========================
+function displayProducts(list) {
+    let box = document.getElementById("products");
+    box.innerHTML = "";
 
-  if(sort === "low") list.sort((a,b)=>a.price-b.price);
-  if(sort === "high") list.sort((a,b)=>b.price-a.price);
+    list.forEach(p => {
+        box.innerHTML += `
+        <div class="product">
+            <img src="${p.img}" alt="${p.name}">
+            <h3>${p.name}</h3>
+            <p>₹${p.price}</p>
 
-  displayProducts(list);
-}
-
-/* ---------- Cart ---------- */
-function addToCart(id){
-  let cart = getCart();
-  const p = PRODUCTS.find(x=>x.id===id);
-  if(!p) return;
-
-  const item = cart.find(x=>x.id===id);
-  if(item) item.qty++;
-  else cart.push({ id:p.id, name:p.name, price:p.price, img:p.img, qty:1 });
-
-  setCart(cart);
-  alert(p.name + " added to cart");
-}
-
-function updateCartCount(){
-  const count = getCart().reduce((a,b)=>a+(b.qty||1),0);
-  if(document.getElementById("cart-count"))
-    document.getElementById("cart-count").innerText = count;
-}
-
-function loadCartPage(){
-  const box = document.getElementById("cartList");
-  if(!box) return;
-  const cart = getCart();
-  if(cart.length === 0){
-    box.innerHTML = "<p>Your cart is empty.</p>";
-    document.getElementById("cartTotal").innerText = CURRENCY + "0";
-    return;
-  }
-
-  box.innerHTML = "";
-  let total = 0;
-
-  cart.forEach(item=>{
-    total += item.price * item.qty;
-    const row = document.createElement("div");
-    row.className = "product";
-    row.style.display = "flex";
-    row.style.justifyContent = "space-between";
-    row.innerHTML = `
-      <div style="display:flex;gap:12px;">
-        <img src="${item.img}" style="width:70px;height:60px;">
-        <div>
-          <b>${item.name}</b><br>
-          ${CURRENCY}${item.price}
+            <button onclick="addToCart(${p.id})">Add to Cart</button>
+            <button onclick="addToWishlist(${p.id})" style="background:#ff4081">❤️ Wishlist</button>
         </div>
-      </div>
-      <div>
-        <button onclick="changeQty(${item.id}, -1)" class="btn small">-</button>
-        ${item.qty}
-        <button onclick="changeQty(${item.id}, 1)" class="btn small">+</button>
-        <button onclick="removeFromCart(${item.id})" class="btn small">Remove</button>
-      </div>
-    `;
-    box.appendChild(row);
-  });
-
-  document.getElementById("cartTotal").innerText = CURRENCY + total;
+        `;
+    });
 }
+displayProducts(products);
 
-function changeQty(id, d){
-  let cart = getCart();
-  const item = cart.find(x=>x.id===id);
-  item.qty += d;
-  if(item.qty <= 0){
-    cart = cart.filter(x=>x.id!==id);
-  }
-  setCart(cart);
-  loadCartPage();
-}
 
-function removeFromCart(id){
-  const cart = getCart().filter(x=>x.id!==id);
-  setCart(cart);
-  loadCartPage();
-}
+// ==========================
+// 🔍 SEARCH
+// ==========================
+document.getElementById("searchInput").addEventListener("input", (e) => {
+    let text = e.target.value.toLowerCase();
+    let filtered = products.filter(p => p.name.toLowerCase().includes(text));
+    displayProducts(filtered);
+});
 
-/* ---------- Wishlist ---------- */
-function addToWish(id){
-  let w = getWish();
-  if(!w.includes(id)) w.push(id);
-  setWish(w);
-  alert("Added to wishlist");
-}
 
-function updateWishCount(){
-  if(document.getElementById("wish-count"))
-    document.getElementById("wish-count").innerText = getWish().length;
-}
+// ==========================
+// 🏷 FILTER BY CATEGORY
+// ==========================
+document.getElementById("categoryFilter").addEventListener("change", (e) => {
+    let cat = e.target.value;
 
-function loadWishPage(){
-  const box = document.getElementById("wishList");
-  if(!box) return;
+    if (cat === "all") return displayProducts(products);
 
-  const w = getWish();
-  if(w.length === 0){
-    box.innerHTML = "<p>Your wishlist is empty.</p>";
-    return;
-  }
+    let filtered = products.filter(p => p.category === cat);
+    displayProducts(filtered);
+});
 
-  box.innerHTML = "";
-  w.forEach(id=>{
-    const p = PRODUCTS.find(x=>x.id===id);
-    const div = document.createElement("div");
-    div.className = "product";
-    div.innerHTML = `
-      <img src="${p.img}">
-      <h3>${p.name}</h3>
-      <p>${CURRENCY}${p.price}</p>
-      <button class="btn" onclick="addToCart(${p.id})">Add to Cart</button>
-    `;
-    box.appendChild(div);
-  });
-}
 
-/* ---------- Checkout ---------- */
-function loadCheckoutPage(){
-  const box = document.getElementById("checkoutItems");
-  if(!box) return;
-  const cart = getCart();
+// ==========================
+// 💰 SORT BY PRICE
+// ==========================
+document.getElementById("sortPrice").addEventListener("change", (e) => {
+    let value = e.target.value;
+    let sorted = [...products];
 
-  if(cart.length === 0){
-    box.innerHTML = "<p>No items to checkout.</p>";
-    document.getElementById("checkoutTotal").innerText = CURRENCY + 0;
-    return;
-  }
+    if (value === "low") sorted.sort((a, b) => a.price - b.price);
+    if (value === "high") sorted.sort((a, b) => b.price - a.price);
 
-  let total = 0;
-  box.innerHTML = "";
-
-  cart.forEach(i=>{
-    total += i.price * i.qty;
-    const div = document.createElement("div");
-    div.className = "product";
-    div.innerHTML = `
-      <div style="display:flex;gap:10px;">
-        <img src="${i.img}" style="width:70px;height:60px;">
-        <div>
-          <b>${i.name}</b><br>
-          ${CURRENCY}${i.price} × ${i.qty}
-        </div>
-      </div>
-    `;
-    box.appendChild(div);
-  });
-
-  document.getElementById("checkoutTotal").innerText = CURRENCY + total;
-}
-
-/* ---------- Auto-run on specific pages ---------- */
-if(document.getElementById("products")) displayProducts();
-if(document.getElementById("cartList")) loadCartPage();
-if(document.getElementById("wishList")) loadWishPage();
-if(document.getElementById("checkoutItems")) loadCheckoutPage();
+    displayProducts(sorted);
+});
