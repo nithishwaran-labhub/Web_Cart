@@ -1,1 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Product Details</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1 class="logo">WebCart</h1>
+</header>
+
+<div class="center-box" id="product-details"></div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
 
