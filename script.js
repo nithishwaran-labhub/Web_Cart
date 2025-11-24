@@ -8,15 +8,32 @@ const CURRENCY = "₹"; // change to "$" if needed
 // ----------------------------
 // PRODUCT LIST
 // ----------------------------
+/* ---------- Sample products ---------- */
 const PRODUCTS = [
-    { id:1, name:"Running Shoes", price:1200, img:"images/shoes.jpg", category:"shoes" },
-    { id:2, name:"Smart Watch", price:2500, img:"images/watch.jpg", category:"watches" },
-    { id:3, name:"Backpack", price:800, img:"images/bag.jpg", category:"bags" },
-    { id:4, name:"Headphones", price:1500, img:"images/earbuds.jpg", category:"electronics" },
-    { id:5, name:"Sunglasses", price:700, img:"images/sunglasses.jpg", category:"accessories" },
-    { id:6, name:"Laptop", price:45000, img:"images/laptop.jpg", category:"electronics" },
-    { id:7, name:"T-Shirt", price:799, img:"images/tshirt.jpg", category:"accessories" }
+  { id:1, name:"Running Shoes", price:1200, img:"images/shoes.jpg", category:"shoes" },
+  { id:2, name:"Smart Watch", price:2500, img:"images/watch.jpg", category:"watches" },
+  { id:3, name:"Backpack", price:800, img:"images/bag.jpg", category:"bags" },
+  { id:4, name:"Headphones", price:1500, img:"images/earbuds.jpg", category:"electronics" },
+  { id:5, name:"Sunglasses", price:700, img:"images/sunglasses.jpg", category:"accessories" },
+  { id:6, name:"Laptop", price:45000, img:"images/laptop.jpg", category:"electronics" },
+  { id:7, name:"T-Shirt", price:799, img:"images/tshirt.jpg", category:"accessories" },
+
+  /* -------- Added New Products -------- */
+  { id:8, name:"Gaming Mouse", price:999, img:"images/mouse.jpg", category:"electronics" },
+  { id:9, name:"Sports Cap", price:450, img:"images/cap.jpg", category:"accessories" },
+  { id:10, name:"Leather Wallet", price:650, img:"images/wallet.jpg", category:"accessories" },
+  { id:11, name:"Casual Shoes", price:1600, img:"images/casualshoes.jpg", category:"shoes" },
+  { id:12, name:"Formal Watch", price:3200, img:"images/formalwatch.jpg", category:"watches" },
+  { id:13, name:"Travel Bag", price:1800, img:"images/travelbag.jpg", category:"bags" },
+  { id:14, name:"Bluetooth Speaker", price:2100, img:"images/speaker.jpg", category:"electronics" },
+  { id:15, name:"Wireless Keyboard", price:1450, img:"images/keyboard.jpg", category:"electronics" },
+  { id:16, name:"Jeans", price:1299, img:"images/jeans.jpg", category:"accessories" },
+  { id:17, name:"Hoodie", price:1599, img:"images/hoodie.jpg", category:"accessories" },
+  { id:18, name:"Smartphone", price:29999, img:"images/phone.jpg", category:"electronics" },
+  { id:19, name:"Ladies Handbag", price:2200, img:"images/ladiesbag.jpg", category:"bags" },
+  { id:20, name:"Running Shorts", price:599, img:"images/shorts.jpg", category:"accessories" }
 ];
+
 
 // ----------------------------
 // STORAGE HELPERS
