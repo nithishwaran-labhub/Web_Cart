@@ -177,3 +177,22 @@ h1, h2, h3, p {
     padding: 18px;
     margin-top: 20px;
 }
+.logo-box {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.logo-text {
+    font-size: 28px;
+    font-weight: bold;
+    color: #00eaff;
+    letter-spacing: 1px;
+}
+
