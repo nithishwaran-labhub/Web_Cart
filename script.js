@@ -1,278 +1,253 @@
 // WebCart demo: uses localStorage for auth/cart/wishlist
 const CURRENCY = '₹'; // change symbol here if you want "$"
 
-// ----------------------------------------------------------------------
-// ✔ MORE PRODUCTS ADDED (20 ITEMS)
-// ----------------------------------------------------------------------
+/* ---------- LARGE PRODUCT LIST (30 ITEMS) ---------- */
 const PRODUCTS = [
   { id:1, name:"Running Shoes", price:1200, img:"images/shoes.jpg", category:"shoes" },
   { id:2, name:"Smart Watch", price:2500, img:"images/watch.jpg", category:"watches" },
   { id:3, name:"Backpack", price:800, img:"images/bag.jpg", category:"bags" },
-  { id:4, name:"Headphones", price:1500, img:"images/earbuds.jpg", category:"electronics" },
+  { id:4, name:"Headphones", price:1500, img:"images/headphones.jpg", category:"electronics" },
   { id:5, name:"Sunglasses", price:700, img:"images/sunglasses.jpg", category:"accessories" },
   { id:6, name:"Laptop", price:45000, img:"images/laptop.jpg", category:"electronics" },
-  { id:7, name:"T-Shirt", price:799, img:"images/tshirt.jpg", category:"fashion" },
-  { id:8, name:"Casual Shirt", price:999, img:"images/shirt.jpg", category:"fashion" },
-  { id:9, name:"Bluetooth Speaker", price:1999, img:"images/speaker.jpg", category:"electronics" },
-  { id:10, name:"Gaming Mouse", price:899, img:"images/mouse.jpg", category:"electronics" },
-  { id:11, name:"Formal Shoes", price:1800, img:"images/formalshoes.jpg", category:"shoes" },
-  { id:12, name:"Travel Bag", price:1600, img:"images/travelbag.jpg", category:"bags" },
-  { id:13, name:"Wireless Charger", price:850, img:"images/charger.jpg", category:"electronics" },
-  { id:14, name:"Leather Wallet", price:499, img:"images/wallet.jpg", category:"accessories" },
-  { id:15, name:"Hoodie", price:1299, img:"images/hoodie.jpg", category:"fashion" },
-  { id:16, name:"Air Cooler", price:5999, img:"images/cooler.jpg", category:"electronics" },
-  { id:17, name:"Smartphone", price:15999, img:"images/phone.jpg", category:"electronics" },
-  { id:18, name:"Sports Watch", price:2199, img:"images/sportswatch.jpg", category:"watches" },
-  { id:19, name:"Ladies HandBag", price:1299, img:"images/handbag.jpg", category:"bags" },
-  { id:20, name:"Kitchen Mixer", price:3499, img:"images/mixer.jpg", category:"home" }
+  { id:7, name:"T-Shirt", price:799, img:"images/tshirt.jpg", category:"accessories" },
+  { id:8, name:"Bluetooth Speaker", price:1999, img:"images/speaker.jpg", category:"electronics" },
+  { id:9, name:"Casual Shoes", price:1400, img:"images/shoes2.jpg", category:"shoes" },
+  { id:10, name:"Leather Wallet", price:550, img:"images/wallet.jpg", category:"accessories" },
+  { id:11, name:"Formal Watch", price:3200, img:"images/watch2.jpg", category:"watches" },
+  { id:12, name:"Travel Bag", price:1800, img:"images/bag2.jpg", category:"bags" },
+  { id:13, name:"Keyboard", price:999, img:"images/keyboard.jpg", category:"electronics" },
+  { id:14, name:"Mouse", price:499, img:"images/mouse.jpg", category:"electronics" },
+  { id:15, name:"Gaming Headset", price:2200, img:"images/gamingheadset.jpg", category:"electronics" },
+  { id:16, name:"Jeans", price:1299, img:"images/jeans.jpg", category:"accessories" },
+  { id:17, name:"Sports Cap", price:399, img:"images/cap.jpg", category:"accessories" },
+  { id:18, name:"Office Bag", price:1999, img:"images/officebag.jpg", category:"bags" },
+  { id:19, name:"Powerbank", price:999, img:"images/powerbank.jpg", category:"electronics" },
+  { id:20, name:"Perfume", price:899, img:"images/perfume.jpg", category:"accessories" },
+  { id:21, name:"Sneakers", price:1600, img:"images/sneakers.jpg", category:"shoes" },
+  { id:22, name:"Analog Watch", price:1100, img:"images/watch3.jpg", category:"watches" },
+  { id:23, name:"Gym Bag", price:1200, img:"images/gymbag.jpg", category:"bags" },
+  { id:24, name:"Earbuds", price:1599, img:"images/earbuds.jpg", category:"electronics" },
+  { id:25, name:"Mobile Case", price:299, img:"images/case.jpg", category:"accessories" },
+  { id:26, name:"Hoodie", price:1499, img:"images/hoodie.jpg", category:"accessories" },
+  { id:27, name:"Sports Shoes", price:1700, img:"images/shoes3.jpg", category:"shoes" },
+  { id:28, name:"Smartphone", price:19999, img:"images/phone.jpg", category:"electronics" },
+  { id:29, name:"Handbag", price:1600, img:"images/handbag.jpg", category:"bags" },
+  { id:30, name:"Neckband Earphones", price:799, img:"images/neckband.jpg", category:"electronics" }
 ];
 
-// ----------------------------------------------------------------------
-// UTILITIES
-// ----------------------------------------------------------------------
+/* ---------- LocalStorage helpers ---------- */
 function getCart(){ return JSON.parse(localStorage.getItem('cart') || '[]'); }
-function setCart(c){ localStorage.setItem('cart', JSON.stringify(c)); updateCartCount(); }
+function setCart(x){ localStorage.setItem('cart', JSON.stringify(x)); updateCartCount(); }
 
 function getWish(){ return JSON.parse(localStorage.getItem('wish') || '[]'); }
-function setWish(w){ localStorage.setItem('wish', JSON.stringify(w)); updateWishCount(); }
+function setWish(x){ localStorage.setItem('wish', JSON.stringify(x)); updateWishCount(); }
 
-// ----------------------------------------------------------------------
-// LOGIN STATUS
-// ----------------------------------------------------------------------
 function getLoggedUser(){ return JSON.parse(localStorage.getItem('loggedUser') || 'null'); }
 function logout(){ localStorage.removeItem('loggedUser'); window.location.href = 'login.html'; }
 
-// Show email & counts
-(function initGlobal(){
+/* ---------- Init for all pages ---------- */
+(function(){
   const u = getLoggedUser();
-  if(u && document.getElementById('user-email')) document.getElementById('user-email').innerText = u.email;
+  if(u && document.getElementById("user-email")){
+    document.getElementById("user-email").innerText = u.email;
+  }
   updateCartCount();
   updateWishCount();
 })();
 
-// ----------------------------------------------------------------------
-// DISPLAY PRODUCTS ON HOME PAGE
-// ----------------------------------------------------------------------
-function displayProducts(products = PRODUCTS){
-  const container = document.getElementById('products');
-  if(!container) return;
+/* ---------- Home Page: Display Products ---------- */
+function displayProducts(list = PRODUCTS){
+  const box = document.getElementById("products");
+  if(!box) return;
+  box.innerHTML = "";
 
-  container.innerHTML = '';
-  products.forEach(p=>{
-    const div = document.createElement('div');
-    div.className = 'product';
+  list.forEach(p=>{
+    const div = document.createElement("div");
+    div.className = "product";
     div.innerHTML = `
-      <img src="${p.img}" alt="${p.name}">
+      <img src="${p.img}">
       <h3>${p.name}</h3>
       <p>${CURRENCY}${p.price}</p>
-
-      <div style="display:flex;gap:8px;justify-content:center;margin-top:10px">
-        <button class="btn" onclick="addToCart(${p.id})">Add to Cart</button>
-        <button class="btn small" onclick="addToWish(${p.id})">Wishlist</button>
-      </div>
+      <button onclick="addToCart(${p.id})" class="btn">Add to Cart</button>
+      <button onclick="addToWish(${p.id})" class="btn small">Wishlist</button>
     `;
-    container.appendChild(div);
+    box.appendChild(div);
   });
 }
 
-// ----------------------------------------------------------------------
-// SEARCH / CATEGORY FILTER / SORT
-// ----------------------------------------------------------------------
-if(document.getElementById('searchInput')){
-  document.getElementById('searchInput').addEventListener('input', applyFilters);
-  document.getElementById('categoryFilter').addEventListener('change', applyFilters);
-  document.getElementById('sortPrice').addEventListener('change', applyFilters);
+/* ---------- Search + Filter + Sort ---------- */
+if(document.getElementById("searchInput")){
+  document.getElementById("searchInput").addEventListener("input", applyFilters);
+  document.getElementById("categoryFilter").addEventListener("change", applyFilters);
+  document.getElementById("sortPrice").addEventListener("change", applyFilters);
 }
 
 function applyFilters(){
-  const q = (document.getElementById('searchInput')||{value:''}).value.toLowerCase();
-  const cat = (document.getElementById('categoryFilter')||{value:'all'}).value;
-  const sort = (document.getElementById('sortPrice')||{value:'none'}).value;
+  const q = document.getElementById("searchInput").value.toLowerCase();
+  const cat = document.getElementById("categoryFilter").value;
+  const sort = document.getElementById("sortPrice").value;
 
-  let res = PRODUCTS.filter(p =>
-    p.name.toLowerCase().includes(q) && (cat === 'all' || p.category === cat)
+  let list = PRODUCTS.filter(x =>
+    x.name.toLowerCase().includes(q) && (cat === "all" || x.category === cat)
   );
 
-  if(sort === 'low') res.sort((a,b)=>a.price-b.price);
-  if(sort === 'high') res.sort((a,b)=>b.price-a.price);
+  if(sort === "low") list.sort((a,b)=>a.price-b.price);
+  if(sort === "high") list.sort((a,b)=>b.price-a.price);
 
-  displayProducts(res);
+  displayProducts(list);
 }
 
-// ----------------------------------------------------------------------
-// ADD TO CART
-// ----------------------------------------------------------------------
+/* ---------- Cart ---------- */
 function addToCart(id){
   let cart = getCart();
-  const item = PRODUCTS.find(p => p.id === id);
-  if(!item) return;
+  const p = PRODUCTS.find(x=>x.id===id);
+  if(!p) return;
 
-  const existing = cart.find(ci => ci.id === id);
-  if(existing) existing.qty++;
-  else cart.push({ id:item.id, name:item.name, price:item.price, img:item.img, qty:1 });
+  const item = cart.find(x=>x.id===id);
+  if(item) item.qty++;
+  else cart.push({ id:p.id, name:p.name, price:p.price, img:p.img, qty:1 });
 
   setCart(cart);
-  alert(item.name + ' added to cart');
+  alert(p.name + " added to cart");
 }
 
-// ----------------------------------------------------------------------
-// CART COUNT
-// ----------------------------------------------------------------------
 function updateCartCount(){
-  const n = getCart().reduce((s,i)=>s + (i.qty||1), 0);
-  const el = document.getElementById('cart-count');
-  if(el) el.innerText = n;
+  const count = getCart().reduce((a,b)=>a+(b.qty||1),0);
+  if(document.getElementById("cart-count"))
+    document.getElementById("cart-count").innerText = count;
 }
 
-// ----------------------------------------------------------------------
-// WISHLIST HANDLING
-// ----------------------------------------------------------------------
-function addToWish(id){
-  let wish = getWish();
-  if(!wish.includes(id)) wish.push(id);
-  setWish(wish);
-  alert("Added to wishlist!");
-}
-
-function updateWishCount(){
-  const el = document.getElementById('wish-count');
-  if(el) el.innerText = getWish().length;
-}
-
-// ----------------------------------------------------------------------
-// CART PAGE RENDER
-// ----------------------------------------------------------------------
 function loadCartPage(){
-  const el = document.getElementById('cartList');
-  if(!el) return;
-
+  const box = document.getElementById("cartList");
+  if(!box) return;
   const cart = getCart();
   if(cart.length === 0){
-    el.innerHTML = '<p>Your cart is empty.</p>';
-    document.getElementById('cartTotal').innerText = CURRENCY + '0';
+    box.innerHTML = "<p>Your cart is empty.</p>";
+    document.getElementById("cartTotal").innerText = CURRENCY + "0";
     return;
   }
 
-  el.innerHTML = '';
+  box.innerHTML = "";
   let total = 0;
 
-  cart.forEach(i => {
-    total += i.price * i.qty;
-
-    el.innerHTML += `
-      <div class="product" style="display:flex; justify-content:space-between; align-items:center">
-        <div style="display:flex; gap:12px">
-          <img src="${i.img}" style="width:80px;height:60px;border-radius:6px;">
-          <div>
-            <b>${i.name}</b>
-            <div>${CURRENCY}${i.price}</div>
-          </div>
-        </div>
-
-        <div style="display:flex; gap:10px">
-          <button onclick="changeQty(${i.id}, -1)" class="btn small">-</button>
-          <b>${i.qty}</b>
-          <button onclick="changeQty(${i.id}, 1)" class="btn small">+</button>
-          <button onclick="removeFromCart(${i.id})" class="btn outline">Remove</button>
+  cart.forEach(item=>{
+    total += item.price * item.qty;
+    const row = document.createElement("div");
+    row.className = "product";
+    row.style.display = "flex";
+    row.style.justifyContent = "space-between";
+    row.innerHTML = `
+      <div style="display:flex;gap:12px;">
+        <img src="${item.img}" style="width:70px;height:60px;">
+        <div>
+          <b>${item.name}</b><br>
+          ${CURRENCY}${item.price}
         </div>
       </div>
+      <div>
+        <button onclick="changeQty(${item.id}, -1)" class="btn small">-</button>
+        ${item.qty}
+        <button onclick="changeQty(${item.id}, 1)" class="btn small">+</button>
+        <button onclick="removeFromCart(${item.id})" class="btn small">Remove</button>
+      </div>
     `;
+    box.appendChild(row);
   });
 
-  document.getElementById('cartTotal').innerText = CURRENCY + total;
+  document.getElementById("cartTotal").innerText = CURRENCY + total;
 }
 
 function changeQty(id, d){
   let cart = getCart();
-  const item = cart.find(c => c.id === id);
-  if(!item) return;
-
+  const item = cart.find(x=>x.id===id);
   item.qty += d;
-  if(item.qty <= 0) cart = cart.filter(c=>c.id!==id);
-
+  if(item.qty <= 0){
+    cart = cart.filter(x=>x.id!==id);
+  }
   setCart(cart);
   loadCartPage();
 }
 
 function removeFromCart(id){
-  setCart(getCart().filter(c => c.id !== id));
+  const cart = getCart().filter(x=>x.id!==id);
+  setCart(cart);
   loadCartPage();
 }
 
-function clearCart(){
-  if(confirm("Clear cart?")){
-    setCart([]);
-    loadCartPage();
-  }
+/* ---------- Wishlist ---------- */
+function addToWish(id){
+  let w = getWish();
+  if(!w.includes(id)) w.push(id);
+  setWish(w);
+  alert("Added to wishlist");
 }
 
-// ----------------------------------------------------------------------
-// WISHLIST PAGE
-// ----------------------------------------------------------------------
+function updateWishCount(){
+  if(document.getElementById("wish-count"))
+    document.getElementById("wish-count").innerText = getWish().length;
+}
+
 function loadWishPage(){
-  const el = document.getElementById('wishList');
-  if(!el) return;
+  const box = document.getElementById("wishList");
+  if(!box) return;
 
-  const wish = getWish();
-  el.innerHTML = '';
-
-  if(wish.length === 0){
-    el.innerHTML = '<p>Your wishlist is empty.</p>';
+  const w = getWish();
+  if(w.length === 0){
+    box.innerHTML = "<p>Your wishlist is empty.</p>";
     return;
   }
 
-  wish.forEach(id =>{
-    const p = PRODUCTS.find(x => x.id === id);
-    if(!p) return;
-
-    el.innerHTML += `
-      <div class="product">
-        <img src="${p.img}">
-        <h3>${p.name}</h3>
-        <p>${CURRENCY}${p.price}</p>
-        <button class="btn" onclick="addToCart(${p.id})">Add to Cart</button>
-      </div>
+  box.innerHTML = "";
+  w.forEach(id=>{
+    const p = PRODUCTS.find(x=>x.id===id);
+    const div = document.createElement("div");
+    div.className = "product";
+    div.innerHTML = `
+      <img src="${p.img}">
+      <h3>${p.name}</h3>
+      <p>${CURRENCY}${p.price}</p>
+      <button class="btn" onclick="addToCart(${p.id})">Add to Cart</button>
     `;
+    box.appendChild(div);
   });
 }
 
-// ----------------------------------------------------------------------
-// CHECKOUT PAGE
-// ----------------------------------------------------------------------
+/* ---------- Checkout ---------- */
 function loadCheckoutPage(){
-  const el = document.getElementById('checkoutItems');
-  if(!el) return;
-
+  const box = document.getElementById("checkoutItems");
+  if(!box) return;
   const cart = getCart();
-  el.innerHTML = '';
-  let total = 0;
 
   if(cart.length === 0){
-    el.innerHTML = '<p>Cart is empty.</p>';
-    document.getElementById('checkoutTotal').innerText = CURRENCY + '0';
+    box.innerHTML = "<p>No items to checkout.</p>";
+    document.getElementById("checkoutTotal").innerText = CURRENCY + 0;
     return;
   }
 
-  cart.forEach(i => {
+  let total = 0;
+  box.innerHTML = "";
+
+  cart.forEach(i=>{
     total += i.price * i.qty;
-    el.innerHTML += `
-      <div class="product" style="display:flex; gap:15px">
-        <img src="${i.img}" style="width:80px;height:60px;border-radius:6px;">
+    const div = document.createElement("div");
+    div.className = "product";
+    div.innerHTML = `
+      <div style="display:flex;gap:10px;">
+        <img src="${i.img}" style="width:70px;height:60px;">
         <div>
-          <b>${i.name}</b>
-          <div>${CURRENCY}${i.price} × ${i.qty}</div>
+          <b>${i.name}</b><br>
+          ${CURRENCY}${i.price} × ${i.qty}
         </div>
       </div>
     `;
+    box.appendChild(div);
   });
 
-  document.getElementById('checkoutTotal').innerText = CURRENCY + total;
+  document.getElementById("checkoutTotal").innerText = CURRENCY + total;
 }
 
-// ----------------------------------------------------------------------
-// PAGE AUTORUN
-// ----------------------------------------------------------------------
-if(document.getElementById('products')) displayProducts();
-if(document.getElementById('cartList')) loadCartPage();
-if(document.getElementById('wishList')) loadWishPage();
-if(document.getElementById('checkoutItems')) loadCheckoutPage();
+/* ---------- Auto-run on specific pages ---------- */
+if(document.getElementById("products")) displayProducts();
+if(document.getElementById("cartList")) loadCartPage();
+if(document.getElementById("wishList")) loadWishPage();
+if(document.getElementById("checkoutItems")) loadCheckoutPage();
