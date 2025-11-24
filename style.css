@@ -1,15 +1,20 @@
-/* GENERAL */
+/* ---------------- GENERAL ---------------- */
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #eef1f5;
+    font-family: Arial, sans-serif;
+    background: #f2f4f7;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, p {
     margin: 0;
 }
 
-/* HEADER */
+/* ---------------- HEADER ---------------- */
 .site-header {
-    background: #0a0f24;
-    padding: 15px 25px;
+    background: #1a1a1a;
     color: white;
+    padding: 15px 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -17,76 +22,80 @@ body {
 
 .brand {
     font-size: 30px;
-    font-weight: bold;
+    font-weight: 700;
     color: #00eaff;
+    letter-spacing: 1px;
+}
+
+.header-right {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
 }
 
-.logo-icon {
-    font-size: 34px;
+.user-email {
+    color: #ccc;
+    font-size: 14px;
 }
 
-.header-right .btn {
-    margin-left: 10px;
-}
-
-/* BUTTONS */
+/* ---------------- BUTTONS ---------------- */
 .btn {
     background: #00bcd4;
-    padding: 8px 14px;
-    text-decoration: none;
     color: white;
-    border-radius: 6px;
-    font-size: 14px;
-    transition: 0.2s;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .btn:hover {
     background: #0097a7;
 }
 
-.small {
+.btn.small {
     padding: 6px 12px;
+    font-size: 13px;
 }
 
-/* HERO */
-.hero {
-    text-align: center;
-    padding: 45px 20px;
-    background: linear-gradient(to right, #00bcd4, #007bff);
+.btn.outline {
+    background: none;
+    border: 2px solid #00bcd4;
+    color: #00bcd4;
+}
+
+.btn.outline:hover {
+    background: #00bcd4;
     color: white;
-    border-bottom-left-radius: 40px;
-    border-bottom-right-radius: 40px;
 }
 
-.hero h1 {
-    font-size: 38px;
-    margin-bottom: 10px;
+/* ---------------- HERO ---------------- */
+.hero {
+    background: linear-gradient(to right, #00bcd444, #00eaff44);
+    padding: 40px;
+    text-align: center;
+    border-radius: 10px;
+    margin: 20px;
 }
 
-.hero p {
-    font-size: 18px;
-}
-
-/* SEARCH & FILTERS */
+/* ---------------- CONTROLS ---------------- */
 .controls {
     display: flex;
-    justify-content: center;
     gap: 12px;
-    margin: 25px 0;
+    padding: 20px;
+    justify-content: center;
 }
 
-.control-input {
-    padding: 12px 14px;
+.controls input,
+.controls select {
+    padding: 10px;
     border-radius: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #aaa;
     font-size: 15px;
-    width: 180px;
 }
 
-/* PRODUCT GRID */
+/* ---------------- PRODUCT GRID ---------------- */
 .product-grid {
     padding: 20px;
     display: grid;
@@ -96,48 +105,75 @@ body {
 
 .product {
     background: white;
-    padding: 15px;
     border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+    padding: 15px;
     text-align: center;
-    transition: 0.25s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: 0.2s;
 }
 
 .product:hover {
-    transform: translateY(-7px);
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.15);
+    transform: translateY(-5px);
 }
 
 .product img {
     width: 100%;
-    height: 230px;
-    object-fit: cover;
+    height: 220px;
     border-radius: 10px;
+    object-fit: cover;
 }
 
-.product button {
+.product h3 {
+    margin-top: 10px;
+}
+
+.product p {
+    margin-top: 6px;
+    font-weight: 700;
+}
+
+/* ---------------- CART LIST ---------------- */
+#cartList .product {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ---------------- WISHLIST ---------------- */
+#wishList .product img {
+    height: 200px;
+}
+
+/* ---------------- CHECKOUT PAGE ---------------- */
+#checkoutItems .product {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ---------------- LOGIN / SIGNUP BOX ---------------- */
+.center-box {
+    width: 330px;
+    background: white;
+    padding: 25px;
+    margin: 80px auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.center-box input {
     width: 100%;
-    padding: 10px;
-    margin-top: 8px;
-    border: none;
-    background: #007bff;
-    color: white;
+    padding: 12px;
+    margin-top: 10px;
     border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    transition: 0.2s;
+    border: 1px solid #ccc;
 }
 
-.product button:hover {
-    background: #005bb5;
-}
-
-/* FOOTER */
+/* ---------------- FOOTER ---------------- */
 .site-footer {
-    background: #0a0f24;
-    color: white;
+    background: #222;
+    color: #ddd;
     text-align: center;
     padding: 18px;
-    margin-top: 40px;
-    font-size: 15px;
+    margin-top: 20px;
 }
