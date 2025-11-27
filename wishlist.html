@@ -1,8 +1,39 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>WebCart — Wishlist</title>
-<link rel="stylesheet" href="style.css"></head>
+<link rel="stylesheet" href="style.css">
+<style>
+  .wishlist-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #fff;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .wishlist-item img {
+    width: 120px;
+    border-radius: 6px;
+  }
+  .buttons {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+  }
+  .empty-msg {
+    font-size: 20px;
+    margin-top: 25px;
+    text-align: center;
+    color: gray;
+  }
+</style>
+</head>
+
 <body>
 <header class="site-header">
   <div class="brand">WebCart</div>
@@ -17,7 +48,51 @@
   <div id="wishList"></div>
 </main>
 
-<script src="script.js"></script>
+<script>
+let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+function loadWishlist() {
+    let container = document.getElementById("wishList");
+    container.innerHTML = "";
+
+    if (wishlist.length === 0) {
+        container.innerHTML = `<p class="empty-msg">No items in wishlist</p>`;
+        return;
+    }
+
+    wishlist.forEach((item, index) => {
+        container.innerHTML += `
+          <div class="wishlist-item">
+            <img src="${item.img}" alt="${item.name}">
+            <div>
+              <h3>${item.name}</h3>
+              <p>₹${item.price}</p>
+            </div>
+
+            <div class="buttons">
+              <button class="btn small" onclick="moveToCart(${index})">Move to Cart</button>
+              <button class="btn small outline" onclick="removeFromWishlist(${index})">Remove</button>
+            </div>
+          </div>
+        `;
+    });
+}
+
+function moveToCart(index) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push(wishlist[index]);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    removeFromWishlist(index);
+}
+
+function removeFromWishlist(index) {
+    wishlist.splice(index, 1);
+    localStorage.setItem("wishlist", JSON.stringify(wishlist));
+    loadWishlist();
+}
+
+loadWishlist();
+</script>
+
 </body>
 </html>
-
