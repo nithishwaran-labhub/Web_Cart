@@ -33,11 +33,23 @@
 </head>
 
 <body>
+
 <header class="site-header">
-  <div class="brand">WebCart</div>
+  <div class="brand">
+    <span class="logo-icon">🛒</span> WebCart
+  </div>
+
   <div class="header-right">
-    <a href="index.html" class="btn small">Home</a>
-    <a href="wishlist.html" class="btn small">Wishlist</a>
+    <span id="user-email" class="user-email"></span>
+    <button id="logoutBtn" class="btn small" onclick="logout()">Logout</button>
+
+    <a href="wishlist.html" class="btn small">
+      ❤️ Wishlist (<span id="wish-count">0</span>)
+    </a>
+
+    <a href="cart.html" class="btn small">
+      🛍 Cart (<span id="cart-count">0</span>)
+    </a>
   </div>
 </header>
 
@@ -52,9 +64,16 @@
   </div>
 </main>
 
+<footer class="site-footer">
+  © 2025 WebCart — Modern Demo E-Commerce
+</footer>
+
+<script src="script.js"></script>
+
 <script>
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+// Load cart UI
 function loadCart() {
     let container = document.getElementById("cartList");
     container.innerHTML = "";
@@ -68,7 +87,6 @@ function loadCart() {
 
     cart.forEach((item, index) => {
         total += item.price;
-
         container.innerHTML += `
           <div class="cart-item">
             <img src="${item.img}" alt="${item.name}">
@@ -84,18 +102,21 @@ function loadCart() {
     document.getElementById("cartTotal").innerText = "₹" + total;
 }
 
+// Remove item
 function removeItem(index) {
     cart.splice(index, 1);
     localStorage.setItem("cart", JSON.stringify(cart));
     loadCart();
 }
 
+// Clear cart
 function clearCart() {
     localStorage.removeItem("cart");
     cart = [];
     loadCart();
 }
 
+// Checkout
 document.getElementById('checkoutBtn').onclick = () => {
   if (cart.length === 0) {
     alert("Your cart is empty!");
@@ -104,6 +125,25 @@ document.getElementById('checkoutBtn').onclick = () => {
   }
 };
 
+// Redirect if not logged in
+if (!localStorage.getItem('loggedUser')) {
+  window.location.href = 'login.html';
+}
+
+// Insert user email
+document.getElementById("user-email").innerText = localStorage.getItem("loggedUser");
+
+// Logout
+function logout() {
+  localStorage.removeItem("loggedUser");
+  window.location.href = "login.html";
+}
+
+// Update wishlist & cart count
+document.getElementById("wish-count").innerText = JSON.parse(localStorage.getItem("wishlist") || "[]").length;
+document.getElementById("cart-count").innerText = JSON.parse(localStorage.getItem("cart") || "[]").length;
+
+// Initial load
 loadCart();
 </script>
 
