@@ -1,41 +1,5 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>WebCart — Cart</title>
-<link rel="stylesheet" href="style.css">
-<style>
-  .cart-item {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    background: #fff;
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  .cart-item img {
-    width: 120px;
-    border-radius: 6px;
-  }
-  .cart-item button {
-    margin-left: auto;
-  }
-  .empty-msg {
-    font-size: 20px;
-    margin-top: 25px;
-    text-align: center;
-    color: gray;
-  }
-</style>
-</head>
-
-<body>
-
 <header class="site-header">
-  <div class="brand">
+  <div class="brand logo-text">
     <span class="logo-icon">🛒</span> WebCart
   </div>
 
@@ -60,7 +24,7 @@
   <div class="cart-summary">
     <div>Total: <strong id="cartTotal">₹0</strong></div>
     <button class="btn" id="checkoutBtn">Proceed to Checkout</button>
-    <button class="btn outline" onclick="clearCart()">Clear Cart</button>
+    <button class="btn outline" id="clearCartBtn">Clear Cart</button>
   </div>
 </main>
 
@@ -68,25 +32,30 @@
   © 2025 WebCart — Modern Demo E-Commerce
 </footer>
 
-<script src="script.js"></script>
-
 <script>
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+// Update header counts
+function updateCounts() {
+  document.getElementById("cart-count").innerText = cart.length;
+  document.getElementById("wish-count").innerText = JSON.parse(localStorage.getItem("wishlist") || "[]").length;
+}
 
 // Load cart UI
 function loadCart() {
-    let container = document.getElementById("cartList");
+    const container = document.getElementById("cartList");
     container.innerHTML = "";
     let total = 0;
 
     if (cart.length === 0) {
         container.innerHTML = `<p class="empty-msg">Your cart is empty</p>`;
         document.getElementById("cartTotal").innerText = "₹0";
+        updateCounts();
         return;
     }
 
     cart.forEach((item, index) => {
-        total += item.price;
+        total += Number(item.price); // Ensure price is number
         container.innerHTML += `
           <div class="cart-item">
             <img src="${item.img}" alt="${item.name}">
@@ -100,6 +69,7 @@ function loadCart() {
     });
 
     document.getElementById("cartTotal").innerText = "₹" + total;
+    updateCounts();
 }
 
 // Remove item
@@ -110,11 +80,11 @@ function removeItem(index) {
 }
 
 // Clear cart
-function clearCart() {
-    localStorage.removeItem("cart");
+document.getElementById("clearCartBtn").onclick = () => {
     cart = [];
+    localStorage.removeItem("cart");
     loadCart();
-}
+};
 
 // Checkout
 document.getElementById('checkoutBtn').onclick = () => {
@@ -131,7 +101,7 @@ if (!localStorage.getItem('loggedUser')) {
 }
 
 // Insert user email
-document.getElementById("user-email").innerText = localStorage.getItem("loggedUser");
+document.getElementById("user-email").innerText = localStorage.getItem("loggedUser") || "";
 
 // Logout
 function logout() {
@@ -139,13 +109,7 @@ function logout() {
   window.location.href = "login.html";
 }
 
-// Update wishlist & cart count
-document.getElementById("wish-count").innerText = JSON.parse(localStorage.getItem("wishlist") || "[]").length;
-document.getElementById("cart-count").innerText = JSON.parse(localStorage.getItem("cart") || "[]").length;
-
 // Initial load
 loadCart();
 </script>
 
-</body>
-</html>
