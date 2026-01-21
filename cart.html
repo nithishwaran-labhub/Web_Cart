@@ -1,3 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WebCart — Cart</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .cart-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .cart-left img {
+      width: 80px;
+      border-radius: 8px;
+    }
+    .cart-actions button {
+      background: #00bcd4;
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
 <header class="site-header">
   <div class="brand logo-text">
     <span class="logo-icon">🛒</span> WebCart
@@ -43,47 +81,51 @@ function updateCounts() {
 
 // Load cart UI
 function loadCart() {
-    const container = document.getElementById("cartList");
-    container.innerHTML = "";
-    let total = 0;
+  const container = document.getElementById("cartList");
+  container.innerHTML = "";
+  let total = 0;
 
-    if (cart.length === 0) {
-        container.innerHTML = `<p class="empty-msg">Your cart is empty</p>`;
-        document.getElementById("cartTotal").innerText = "₹0";
-        updateCounts();
-        return;
-    }
-
-    cart.forEach((item, index) => {
-        total += Number(item.price); // Ensure price is number
-        container.innerHTML += `
-          <div class="cart-item">
-            <img src="${item.img}" alt="${item.name}">
-            <div>
-              <h3>${item.name}</h3>
-              <p>₹${item.price}</p>
-            </div>
-            <button class="btn small outline" onclick="removeItem(${index})">Remove</button>
-          </div>
-        `;
-    });
-
-    document.getElementById("cartTotal").innerText = "₹" + total;
+  if (cart.length === 0) {
+    container.innerHTML = `<p class="empty-msg">Your cart is empty</p>`;
+    document.getElementById("cartTotal").innerText = "₹0";
     updateCounts();
+    return;
+  }
+
+  cart.forEach((item, index) => {
+    total += Number(item.price);
+    container.innerHTML += `
+      <div class="cart-item">
+        <div class="cart-left">
+          <img src="${item.img}" alt="${item.name}">
+          <div>
+            <h3>${item.name}</h3>
+            <p>₹${item.price}</p>
+          </div>
+        </div>
+        <div class="cart-actions">
+          <button class="btn small outline" onclick="removeItem(${index})">Remove</button>
+        </div>
+      </div>
+    `;
+  });
+
+  document.getElementById("cartTotal").innerText = "₹" + total;
+  updateCounts();
 }
 
 // Remove item
 function removeItem(index) {
-    cart.splice(index, 1);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    loadCart();
+  cart.splice(index, 1);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  loadCart();
 }
 
 // Clear cart
 document.getElementById("clearCartBtn").onclick = () => {
-    cart = [];
-    localStorage.removeItem("cart");
-    loadCart();
+  cart = [];
+  localStorage.removeItem("cart");
+  loadCart();
 };
 
 // Checkout
@@ -113,3 +155,5 @@ function logout() {
 loadCart();
 </script>
 
+</body>
+</html>
