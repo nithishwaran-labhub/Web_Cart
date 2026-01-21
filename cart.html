@@ -1,57 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>WebCart — Cart</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #fff;
-      padding: 15px;
-      margin: 15px 0;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    .cart-left {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    .cart-left img {
-      width: 80px;
-      border-radius: 8px;
-    }
-    .cart-actions button {
-      background: #00bcd4;
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>WebCart — Cart</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .cart-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #fff;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .cart-item img {
+    width: 120px;
+    border-radius: 6px;
+  }
+  .buttons {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+  }
+  .empty-msg {
+    font-size: 20px;
+    margin-top: 25px;
+    text-align: center;
+    color: gray;
+  }
+</style>
 </head>
-<body>
 
+<body>
 <header class="site-header">
-  <div class="brand logo-text">
-    <span class="logo-icon">🛒</span> WebCart
-  </div>
+ <div class="brand logo-text">
+  <span class="logo-icon">🛒</span> WebCart
+</div>
 
   <div class="header-right">
-    <span id="user-email" class="user-email"></span>
-    <button id="logoutBtn" class="btn small" onclick="logout()">Logout</button>
-
-    <a href="wishlist.html" class="btn small">
-      ❤️ Wishlist (<span id="wish-count">0</span>)
-    </a>
-
-    <a href="cart.html" class="btn small">
-      🛍 Cart (<span id="cart-count">0</span>)
-    </a>
+    <a href="index.html" class="btn small">Home</a>
+    <a href="wishlist.html" class="btn small">Wishlist</a>
   </div>
 </header>
 
@@ -66,29 +57,17 @@
   </div>
 </main>
 
-<footer class="site-footer">
-  © 2025 WebCart — Modern Demo E-Commerce
-</footer>
-
 <script>
-let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-// Update header counts
-function updateCounts() {
-  document.getElementById("cart-count").innerText = cart.length;
-  document.getElementById("wish-count").innerText = JSON.parse(localStorage.getItem("wishlist") || "[]").length;
-}
-
-// Load cart UI
 function loadCart() {
-  const container = document.getElementById("cartList");
+  let container = document.getElementById("cartList");
   container.innerHTML = "";
   let total = 0;
 
   if (cart.length === 0) {
     container.innerHTML = `<p class="empty-msg">Your cart is empty</p>`;
     document.getElementById("cartTotal").innerText = "₹0";
-    updateCounts();
     return;
   }
 
@@ -96,14 +75,13 @@ function loadCart() {
     total += Number(item.price);
     container.innerHTML += `
       <div class="cart-item">
-        <div class="cart-left">
-          <img src="${item.img}" alt="${item.name}">
-          <div>
-            <h3>${item.name}</h3>
-            <p>₹${item.price}</p>
-          </div>
+        <img src="${item.img}" alt="${item.name}">
+        <div>
+          <h3>${item.name}</h3>
+          <p>₹${item.price}</p>
         </div>
-        <div class="cart-actions">
+
+        <div class="buttons">
           <button class="btn small outline" onclick="removeItem(${index})">Remove</button>
         </div>
       </div>
@@ -111,25 +89,21 @@ function loadCart() {
   });
 
   document.getElementById("cartTotal").innerText = "₹" + total;
-  updateCounts();
 }
 
-// Remove item
 function removeItem(index) {
   cart.splice(index, 1);
   localStorage.setItem("cart", JSON.stringify(cart));
   loadCart();
 }
 
-// Clear cart
 document.getElementById("clearCartBtn").onclick = () => {
   cart = [];
   localStorage.removeItem("cart");
   loadCart();
 };
 
-// Checkout
-document.getElementById('checkoutBtn').onclick = () => {
+document.getElementById("checkoutBtn").onclick = () => {
   if (cart.length === 0) {
     alert("Your cart is empty!");
   } else {
@@ -137,21 +111,6 @@ document.getElementById('checkoutBtn').onclick = () => {
   }
 };
 
-// Redirect if not logged in
-if (!localStorage.getItem('loggedUser')) {
-  window.location.href = 'login.html';
-}
-
-// Insert user email
-document.getElementById("user-email").innerText = localStorage.getItem("loggedUser") || "";
-
-// Logout
-function logout() {
-  localStorage.removeItem("loggedUser");
-  window.location.href = "login.html";
-}
-
-// Initial load
 loadCart();
 </script>
 
