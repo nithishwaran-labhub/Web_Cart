@@ -1,36 +1,127 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>WebCart — Checkout</title>
-<link rel="stylesheet" href="style.css"></head>
+<link rel="stylesheet" href="style.css">
+<style>
+.checkout-box{
+  background:#fff;
+  max-width:700px;
+  margin:30px auto;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+.checkout-box h3{margin-top:20px}
+.row{display:flex;gap:15px;flex-wrap:wrap}
+.row input,.row select{
+  flex:1;
+  padding:10px;
+  border:1px solid #ccc;
+  border-radius:6px;
+}
+.order-item{
+  display:flex;
+  justify-content:space-between;
+  margin:8px 0;
+}
+.total{
+  font-size:20px;
+  font-weight:bold;
+  margin-top:10px;
+}
+.pay-btn{
+  margin-top:15px;
+  width:100%;
+  padding:12px;
+  background:#00bcd4;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  cursor:pointer;
+}
+.pay-btn:hover{opacity:.9}
+</style>
+</head>
+
 <body>
 <header class="site-header">
  <div class="brand logo-text">
   <span class="logo-icon">🛒</span> WebCart
-</div>
-
+ </div>
 </header>
 
 <main class="center-area">
-  <h2>Checkout</h2>
-  <div id="checkoutItems"></div>
-  <div class="cart-summary">
-    <div>Total: <strong id="checkoutTotal">₹0</strong></div>
-    <label>Payment method (demo)</label>
-    <select id="payMethod"><option>UPI</option><option>Card</option><option>Netbanking</option></select>
-    <button class="btn" id="payNow">Pay Now (Demo)</button>
+  <div class="checkout-box">
+    <h2>Checkout</h2>
+
+    <h3>Shipping Details</h3>
+    <div class="row">
+      <input type="text" id="name" placeholder="Full Name">
+      <input type="text" id="phone" placeholder="Phone Number">
+    </div>
+    <div class="row">
+      <input type="text" id="address" placeholder="Address">
+      <input type="text" id="city" placeholder="City">
+    </div>
+    <div class="row">
+      <input type="text" id="pincode" placeholder="Pincode">
+      <select id="payment">
+        <option value="">Select Payment</option>
+        <option>UPI</option>
+        <option>Card</option>
+        <option>Cash on Delivery</option>
+      </select>
+    </div>
+
+    <h3>Your Order</h3>
+    <div id="orderList"></div>
+    <div class="total">Total: ₹<span id="totalPrice">0</span></div>
+
+    <button class="pay-btn" onclick="placeOrder()">Place Order</button>
   </div>
 </main>
 
-<script src="script.js"></script>
 <script>
-  document.getElementById('payNow').onclick = () => {
-    // simulate payment success
-    alert('Payment successful (demo). Thank you!');
-    localStorage.removeItem('cart'); // clear cart on success
-    window.location.href = 'index.html';
-  };
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let orderBox = document.getElementById("orderList");
+let total = 0;
+
+function loadOrder(){
+  orderBox.innerHTML="";
+  total=0;
+  cart.forEach(item=>{
+    total+=Number(item.price);
+    orderBox.innerHTML+=`
+      <div class="order-item">
+        <span>${item.name}</span>
+        <span>₹${item.price}</span>
+      </div>`;
+  });
+  document.getElementById("totalPrice").innerText=total;
+}
+loadOrder();
+
+function placeOrder(){
+  let name=document.getElementById("name").value;
+  let phone=document.getElementById("phone").value;
+  let address=document.getElementById("address").value;
+  let city=document.getElementById("city").value;
+  let pin=document.getElementById("pincode").value;
+  let pay=document.getElementById("payment").value;
+
+  if(!name||!phone||!address||!city||!pin||!pay){
+    alert("Please fill all details");
+    return;
+  }
+
+  alert("Order placed successfully!");
+  localStorage.removeItem("cart");
+  window.location.href="index.html";
+}
 </script>
 </body>
 </html>
-
