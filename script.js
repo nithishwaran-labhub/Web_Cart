@@ -194,3 +194,7 @@ document.getElementById("sortPrice").addEventListener("change", (e) => {
 
     displayProducts(sorted);
 });
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js")
+  .then(() => console.log("Service Worker Registered"));
+}
