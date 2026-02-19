@@ -194,3 +194,10 @@ function openQuickView(id) {
 function closeModal() {
     document.getElementById("quickModal").style.display = "none";
 }
+function openQuickView() {
+    document.getElementById("quickModal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("quickModal").style.display = "none";
+}
