@@ -1,177 +1,167 @@
 /* ==========================
-   GLOBAL
+   APPLE STYLE PREMIUM THEME
 ========================== */
+
 body {
-    font-family: Arial, sans-serif;
-    background: #f3f5f7;
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  background: #000;
+  color: white;
+  overflow-x: hidden;
 }
 
-/* ==========================
-   HEADER
-========================== */
+/* 🌌 Glowing Animated Background */
+body::before {
+  content: "";
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 30%, #8b5cf6, transparent 40%),
+              radial-gradient(circle at 70% 70%, #ec4899, transparent 40%);
+  animation: glowMove 10s linear infinite alternate;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+@keyframes glowMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-10%, -10%); }
+}
+
+/* HEADER */
 .site-header {
-    background: #111;
-    color: white;
-    padding: 15px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-}
-
-.brand {
-    font-size: 28px;
-    font-weight: bold;
-    color: #00eaff;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(20px);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .logo-text {
-  font-size: 32px;
-  font-weight: 900;
+  font-size: 28px;
+  font-weight: 600;
   letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: "Poppins", sans-serif;
-  background: linear-gradient(45deg, #ff9900, #ff5500);
-  -webkit-background-clip: text;
-  color: transparent;
 }
 
-.logo-icon {
-  font-size: 34px;
-  filter: drop-shadow(0 0 2px rgba(0,0,0,0.3));
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.user-email {
-    color: #00eaff;
-    font-weight: bold;
-}
-
-/* Header Buttons */
 .btn.small {
-    padding: 8px 14px;
-    background: #00bcd4;
-    color: white;
-    border-radius: 6px;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .btn.small:hover {
-    background: #0097a7;
+  background: white;
+  color: black;
 }
 
-/* ==========================
-   HERO BANNER
-========================== */
+/* HERO */
 .hero {
-    padding: 70px 20px;
-    text-align: center;
-    background: linear-gradient(to right, #00c6ff, #0072ff);
-    color: white;
+  text-align: center;
+  padding: 100px 20px;
 }
 
 .hero h1 {
-    font-size: 42px;
-    margin-bottom: 10px;
+  font-size: 60px;
+  font-weight: 700;
 }
 
 .hero p {
-    font-size: 18px;
-    opacity: 0.9;
+  font-size: 20px;
+  opacity: 0.7;
 }
 
-/* ==========================
-   SEARCH & FILTERS
-========================== */
+/* CONTROLS */
 .controls {
-    display: flex;
-    gap: 15px;
-    padding: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 30px;
 }
 
 .control-input {
-    padding: 12px 15px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #bbb;
-    width: 220px;
+  padding: 12px 18px;
+  border-radius: 25px;
+  border: none;
+  outline: none;
 }
 
-/* ==========================
-   PRODUCT GRID
-========================== */
+/* PRODUCTS */
 .product-grid {
-    padding: 25px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 30px;
+  padding: 40px;
 }
 
 .product {
-    background: white;
-    padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 5px 12px rgba(0,0,0,0.1);
-    text-align: center;
-    transition: 0.2s ease;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  border-radius: 25px;
+  padding: 20px;
+  text-align: center;
+  transition: 0.4s;
 }
 
 .product:hover {
-    transform: translateY(-5px);
+  transform: translateY(-10px);
 }
 
 .product img {
-    width: 100%;
-    height: 220px;
-    border-radius: 10px;
-    object-fit: cover;
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 20px;
 }
 
 .product-title {
-    font-size: 18px;
-    margin: 10px 0 5px;
+  margin: 15px 0 5px;
+  font-size: 20px;
 }
 
 .product-price {
-    color: #0288d1;
-    font-weight: bold;
-    margin-bottom: 10px;
+  color: #8b5cf6;
+  font-weight: 600;
+}
+
+.rating {
+  margin: 10px 0;
+  color: gold;
+  font-size: 18px;
 }
 
 .product button {
-    width: 100%;
-    padding: 10px;
-    background: #0288d1;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
 }
 
-.product button:hover {
-    background: #0277bd;
+/* QUICK VIEW MODAL */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
 }
 
-/* ==========================
-   FOOTER
-========================== */
-.site-footer {
-    background: #111;
-    color: #aaa;
-    text-align: center;
-    padding: 15px;
-    margin-top: 40px;
+.modal-content {
+  background: #111;
+  padding: 30px;
+  border-radius: 25px;
+  width: 400px;
+  text-align: center;
+}
+
+.modal img {
+  width: 100%;
+  border-radius: 20px;
 }
