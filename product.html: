@@ -3,21 +3,48 @@
 <head>
 <title>Product Details</title>
 
-<!-- PWA -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ff9800">
+<meta name="theme-color" content="#000000">
 
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <h1 class="logo">WebCart</h1>
+<header class="site-header">
+  <h1 class="logo-text"> WebCart</h1>
 </header>
 
-<div class="center-box" id="product-details"></div>
+<div class="center-box" id="product-details">
+  
+  <div class="product-card">
+    <img src="shoe.jpg" class="product-img">
+
+    <h2 class="product-title">Nike Air Max</h2>
+
+    <p class="product-price">₹1999</p>
+
+    <!-- ⭐ Rating -->
+    <div class="rating">⭐⭐⭐⭐⭐</div>
+
+    <div class="btn-group">
+      <button class="btn-primary">Add to Cart</button>
+      <button class="btn-secondary" onclick="openQuickView()">Quick View</button>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Quick View Modal -->
+<div class="modal" id="quickModal">
+  <div class="modal-content">
+      <h2>Nike Air Max</h2>
+      <img src="shoe.jpg">
+      <p>Premium sports shoe with comfort design.</p>
+      <button onclick="closeModal()">Close</button>
+  </div>
+</div>
 
 <script src="script.js"></script>
-
 </body>
 </html>
