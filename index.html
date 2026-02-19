@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -12,6 +13,12 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+<!-- SPLASH SCREEN -->
+<div id="splash">
+  <img src="logo.png" alt="WebCart">
+  <h2>WebCart</h2>
+</div>
 
 <header class="site-header">
   <div class="brand logo-text">
@@ -69,7 +76,7 @@
 </main>
 
 <footer class="site-footer">
-  © 2026 WebCart — Modern E-Commerce
+  © 2026 WebCart — Modern Demo E-Commerce
 </footer>
 
 <script src="script.js"></script>
@@ -79,6 +86,13 @@
 if (!localStorage.getItem('loggedUser')) {
   window.location.href = 'login.html';
 }
+</script>
+<script>
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    document.getElementById("splash").classList.add("hide");
+  }, 2000); // splash visible for 2 seconds
+});
 </script>
 
 </body>
