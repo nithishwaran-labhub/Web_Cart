@@ -165,3 +165,117 @@ body::before {
   width: 100%;
   border-radius: 20px;
 }
+/* 🌌 Apple Glow Background */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: black;
+  color: white;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at 30% 30%, #8b5cf6, transparent 40%),
+              radial-gradient(circle at 70% 70%, #ec4899, transparent 40%);
+  animation: glowMove 10s linear infinite alternate;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+@keyframes glowMove {
+  0% { transform: translate(0,0); }
+  100% { transform: translate(-10%, -10%); }
+}
+
+.site-header {
+  text-align: center;
+  padding: 20px;
+}
+
+.logo-text {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.center-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.product-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  padding: 30px;
+  border-radius: 25px;
+  text-align: center;
+  width: 350px;
+  transition: 0.4s;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+}
+
+.product-img {
+  width: 100%;
+  border-radius: 20px;
+}
+
+.product-price {
+  color: #8b5cf6;
+  font-size: 20px;
+}
+
+.rating {
+  margin: 10px 0;
+  color: gold;
+  font-size: 20px;
+}
+
+.btn-group button {
+  margin: 10px 5px;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: white;
+  color: black;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #111;
+  padding: 30px;
+  border-radius: 25px;
+  text-align: center;
+  width: 300px;
+}
+
+.modal img {
+  width: 100%;
+  border-radius: 20px;
+}
