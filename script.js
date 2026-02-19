@@ -178,3 +178,19 @@ if (installBtn) {
         }
     });
 }
+function openQuickView(id) {
+    let p = products.find(item => item.id === id);
+
+    document.getElementById("quickModal").style.display = "flex";
+    document.getElementById("modalContent").innerHTML = `
+        <h2>${p.name}</h2>
+        <img src="${p.img}">
+        <p style="margin:15px 0;">Price: ₹${p.price}</p>
+        <button onclick="addToCart(${p.id})">Add to Cart</button>
+        <button onclick="closeModal()">Close</button>
+    `;
+}
+
+function closeModal() {
+    document.getElementById("quickModal").style.display = "none";
+}
