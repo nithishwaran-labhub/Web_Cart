@@ -211,9 +211,3 @@ document.getElementById("installBtn").addEventListener("click", () => {
     deferredPrompt.prompt();
   }
 });
-window.addEventListener("load", () => {
-  setTimeout(() => {
-    const splash = document.getElementById("splash");
-    if (splash) splash.classList.add("hide");
-  }, 1500); // 1.5 seconds
-});
