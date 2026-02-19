@@ -1,281 +1,231 @@
-/* ==========================
-   APPLE STYLE PREMIUM THEME
-========================== */
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
-  background: #000;
-  color: white;
-  overflow-x: hidden;
-}
-
-/* 🌌 Glowing Animated Background */
-body::before {
-  content: "";
+/* SPLASH SCREEN */
+#splash {
   position: fixed;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 30% 30%, #8b5cf6, transparent 40%),
-              radial-gradient(circle at 70% 70%, #ec4899, transparent 40%);
-  animation: glowMove 10s linear infinite alternate;
-  z-index: -1;
-  opacity: 0.3;
-}
-
-@keyframes glowMove {
-  0% { transform: translate(0, 0); }
-  100% { transform: translate(-10%, -10%); }
-}
-
-/* HEADER */
-.site-header {
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(20px);
-  padding: 20px 40px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: #ff9800;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  z-index: 9999;
 }
 
-.logo-text {
-  font-size: 28px;
-  font-weight: 600;
+#splash img {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 15px;
+}
+
+#splash h2 {
+  color: white;
+  font-size: 26px;
   letter-spacing: 1px;
 }
 
+/* Hide splash */
+#splash.hide {
+  display: none;
+}
+/* ==========================
+   GLOBAL
+========================== */
+body {
+    font-family: Arial, sans-serif;
+    background: #f3f5f7;
+    margin: 0;
+    padding: 0;
+}
+
+/* ==========================
+   HEADER
+========================== */
+.site-header {
+    background: #111;
+    color: white;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+}
+
+.brand {
+    font-size: 28px;
+    font-weight: bold;
+    color: #00eaff;
+}
+
+.logo-icon {
+    margin-right: 8px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-email {
+    color: #00eaff;
+    font-weight: bold;
+}
+
+/* Header Buttons */
 .btn.small {
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,255,255,0.2);
-  background: transparent;
-  color: white;
-  cursor: pointer;
-  transition: 0.3s;
+    padding: 8px 14px;
+    background: #00bcd4;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
 }
 
 .btn.small:hover {
-  background: white;
-  color: black;
+    background: #0097a7;
 }
 
-/* HERO */
+/* ==========================
+   HERO BANNER
+========================== */
 .hero {
-  text-align: center;
-  padding: 100px 20px;
+    padding: 70px 20px;
+    text-align: center;
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+    color: white;
 }
 
 .hero h1 {
-  font-size: 60px;
-  font-weight: 700;
+    font-size: 42px;
+    margin-bottom: 10px;
 }
 
 .hero p {
-  font-size: 20px;
-  opacity: 0.7;
+    font-size: 18px;
+    opacity: 0.9;
 }
 
-/* CONTROLS */
+/* ==========================
+   SEARCH & FILTERS
+========================== */
 .controls {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  padding: 30px;
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+    justify-content: center;
 }
 
 .control-input {
-  padding: 12px 18px;
-  border-radius: 25px;
-  border: none;
-  outline: none;
+    padding: 12px 15px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #bbb;
+    width: 220px;
 }
 
-/* PRODUCTS */
+/* ==========================
+   PRODUCT GRID
+========================== */
 .product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 30px;
-  padding: 40px;
+    padding: 25px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
 }
 
 .product {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(20px);
-  border-radius: 25px;
-  padding: 20px;
-  text-align: center;
-  transition: 0.4s;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: 0.2s ease;
 }
 
 .product:hover {
-  transform: translateY(-10px);
+    transform: translateY(-5px);
 }
 
 .product img {
-  width: 100%;
-  height: 240px;
-  object-fit: cover;
-  border-radius: 20px;
+    width: 100%;
+    height: 220px;
+    border-radius: 10px;
+    object-fit: cover;
 }
 
 .product-title {
-  margin: 15px 0 5px;
-  font-size: 20px;
+    font-size: 18px;
+    margin: 10px 0 5px;
 }
 
 .product-price {
-  color: #8b5cf6;
-  font-weight: 600;
-}
-
-.rating {
-  margin: 10px 0;
-  color: gold;
-  font-size: 18px;
+    color: #0288d1;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .product button {
-  margin-top: 10px;
-  width: 100%;
-  padding: 10px;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    background: #0288d1;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
-/* QUICK VIEW MODAL */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: none;
-  justify-content: center;
-  align-items: center;
+.product button:hover {
+    background: #0277bd;
 }
 
-.modal-content {
-  background: #111;
-  padding: 30px;
-  border-radius: 25px;
-  width: 400px;
-  text-align: center;
+/* ==========================
+   FOOTER
+========================== */
+.site-footer {
+    background: #111;
+    color: #aaa;
+    text-align: center;
+    padding: 15px;
+    margin-top: 40px;
 }
-
-.modal img {
-  width: 100%;
-  border-radius: 20px;
-}
-/* 🌌 Apple Glow Background */
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background: black;
-  color: white;
-  overflow-x: hidden;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle at 30% 30%, #8b5cf6, transparent 40%),
-              radial-gradient(circle at 70% 70%, #ec4899, transparent 40%);
-  animation: glowMove 10s linear infinite alternate;
-  z-index: -1;
-  opacity: 0.3;
-}
-
-@keyframes glowMove {
-  0% { transform: translate(0,0); }
-  100% { transform: translate(-10%, -10%); }
-}
-
-.site-header {
-  text-align: center;
-  padding: 20px;
-}
-
 .logo-text {
-  font-size: 28px;
-  font-weight: 600;
-}
-
-.center-box {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: 1px;
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 80vh;
+  gap: 8px;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(45deg, #ff9900, #ff5500);
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
-.product-card {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(20px);
-  padding: 30px;
-  border-radius: 25px;
-  text-align: center;
-  width: 350px;
-  transition: 0.4s;
+.logo-icon {
+  font-size: 34px;
+  filter: drop-shadow(0 0 2px rgba(0,0,0,0.3));
 }
-
-.product-card:hover {
-  transform: translateY(-10px);
-}
-
-.product-img {
-  width: 100%;
-  border-radius: 20px;
-}
-
-.product-price {
-  color: #8b5cf6;
-  font-size: 20px;
-}
-
-.rating {
-  margin: 10px 0;
-  color: gold;
-  font-size: 20px;
-}
-
-.btn-group button {
-  margin: 10px 5px;
-  padding: 10px 20px;
-  border-radius: 20px;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background: white;
-  color: black;
-}
-
-.btn-secondary {
-  background: transparent;
-  border: 1px solid white;
+#splash{
+  position: fixed;
+  inset: 0;
+  background: #ff9800;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
   color: white;
 }
 
-/* Modal */
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.8);
+#splash img{
+  width: 120px;
+  margin-bottom: 15px;
+}
+
+#splash.hide{
   display: none;
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: #111;
-  padding: 30px;
-  border-radius: 25px;
-  text-align: center;
-  width: 300px;
-}
-
-.modal img {
-  width: 100%;
-  border-radius: 20px;
 }
